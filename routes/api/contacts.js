@@ -1,17 +1,25 @@
 const express = require("express");
-const { contactsCtrl } = require("../../controllers");
+const {
+  contactsCtrl: {
+    getAllContacts,
+    getContactById,
+    addContact,
+    removeContactById,
+    updateContactById,
+  },
+} = require("../../controllers");
 const { errorBoundary } = require("../../middlewares");
 
 const router = express.Router();
 
-router.get("/", errorBoundary(contactsCtrl.getAllContacts));
+router.get("/", errorBoundary(getAllContacts));
 
-router.get("/:contactId", errorBoundary(contactsCtrl.getContactById));
+router.get("/:contactId", errorBoundary(getContactById));
 
-router.post("/", contactsCtrl.addContact);
+router.post("/", errorBoundary(addContact));
 
-router.delete("/:contactId", contactsCtrl.removeContactById);
+router.delete("/:contactId", errorBoundary(removeContactById));
 
-router.put("/:contactId", contactsCtrl.updateContactById);
+router.put("/:contactId", errorBoundary(updateContactById));
 
 module.exports = router;
