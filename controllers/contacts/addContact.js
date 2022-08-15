@@ -1,3 +1,5 @@
+// const {contactsModel} = require('../../models')
+
 const addContact = async (req, res, next) => {
   res.json({ message: "template message" });
 };

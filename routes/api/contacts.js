@@ -1,11 +1,12 @@
 const express = require("express");
 const { contactsCtrl } = require("../../controllers");
+const { errorBoundary } = require("../../middlewares");
 
 const router = express.Router();
 
-router.get("/", contactsCtrl.getAllContacts);
+router.get("/", errorBoundary(contactsCtrl.getAllContacts));
 
-router.get("/:contactId", contactsCtrl.getContactById);
+router.get("/:contactId", errorBoundary(contactsCtrl.getContactById));
 
 router.post("/", contactsCtrl.addContact);
 

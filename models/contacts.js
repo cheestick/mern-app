@@ -2,18 +2,15 @@ const fs = require("fs/promises");
 const path = require("path");
 const { v4: generateId } = require("uuid");
 
-const contactsPath = path.join(__dirname, "db", "contacts.json");
+const contactsPath = path.join(__dirname, "contacts.json");
 
 const listContacts = async () => JSON.parse(await fs.readFile(contactsPath));
 
 const getContactById = async (contactId) => {
-  contactId = String(contactId);
-  if (!contactId) throw new Error("Undeclared contact ID");
-
   const contactsList = await listContacts();
   const contact = contactsList.find(({ id }) => contactId === id);
 
-  if (!contact) throw new Error(`Contact with id ${contactId} was not found`);
+  if (!contact) return null;
 
   return contact;
 };
