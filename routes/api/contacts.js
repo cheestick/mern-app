@@ -8,7 +8,13 @@ const {
     updateContactById,
   },
 } = require("../../controllers");
+
 const { errorBoundary } = require("../../middlewares");
+
+const { validateContactData } = require("../../middlewares");
+const {
+  contact: { fullInfo },
+} = require("../../schemas");
 
 const router = express.Router();
 
@@ -16,10 +22,14 @@ router.get("/", errorBoundary(getAllContacts));
 
 router.get("/:contactId", errorBoundary(getContactById));
 
-router.post("/", errorBoundary(addContact));
+router.post("/", validateContactData(fullInfo), errorBoundary(addContact));
+
+router.put(
+  "/:contactId",
+  validateContactData(fullInfo),
+  errorBoundary(updateContactById)
+);
 
 router.delete("/:contactId", errorBoundary(removeContactById));
-
-router.put("/:contactId", errorBoundary(updateContactById));
 
 module.exports = router;

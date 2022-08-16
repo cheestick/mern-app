@@ -1,3 +1,7 @@
 const errorBoundary = require("./errorBoudary");
+const validateContactData = require("./validateContactData");
 
-module.exports = { errorBoundary };
+module.exports = {
+  errorBoundary,
+  validateContactData,
+};
