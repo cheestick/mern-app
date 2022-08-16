@@ -1,4 +1,5 @@
 const express = require("express");
+
 const {
   contactsCtrl: {
     getAllContacts,
@@ -9,9 +10,13 @@ const {
   },
 } = require("../../controllers");
 
-const { errorBoundary } = require("../../middlewares");
+const {
+  errorBoundary,
+  checkRequiredContactFields,
+  checkEmptyContactUpdateData,
+  validateContactData,
+} = require("../../middlewares");
 
-const { validateContactData } = require("../../middlewares");
 const {
   contact: { fullInfo },
 } = require("../../schemas");
@@ -22,10 +27,16 @@ router.get("/", errorBoundary(getAllContacts));
 
 router.get("/:contactId", errorBoundary(getContactById));
 
-router.post("/", validateContactData(fullInfo), errorBoundary(addContact));
+router.post(
+  "/",
+  checkRequiredContactFields,
+  validateContactData(fullInfo),
+  errorBoundary(addContact)
+);
 
 router.put(
   "/:contactId",
+  checkEmptyContactUpdateData,
   validateContactData(fullInfo),
   errorBoundary(updateContactById)
 );
