@@ -16,12 +16,9 @@ const getContactById = async (contactId) => {
 };
 
 const removeContact = async (contactId) => {
-  contactId = String(contactId);
-  if (!contactId) throw new Error("Undeclared contact ID");
-
   const contactsList = await listContacts();
   const idx = contactsList.findIndex(({ id }) => contactId === id);
-  if (idx === -1) throw new Error(`Contact with id ${contactId} was not found`);
+  if (idx === -1) return null;
 
   const [deletedContact] = contactsList.splice(idx, 1);
 
@@ -47,12 +44,9 @@ const addContact = async (body) => {
 };
 
 const updateContact = async (contactId, body) => {
-  contactId = String(contactId);
-  if (!contactId) throw new Error("Undeclared contact ID");
-
   const contactsList = await listContacts();
   const idx = contactsList.findIndex(({ id }) => contactId === id);
-  if (idx === -1) throw new Error(`Contact with id ${contactId} was not found`);
+  if (idx === -1) return null;
 
   Object.assign(contactsList[idx], body);
 

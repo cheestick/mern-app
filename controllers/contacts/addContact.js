@@ -1,6 +1,6 @@
 const { contactsModel } = require("../../models");
 
-const addContact = async (req, res, next) => {
+const addContact = async (req, res, _) => {
   const { name, email, phone } = req.body;
 
   if (!name || !email || !phone) {
