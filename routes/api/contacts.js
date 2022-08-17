@@ -1,25 +1,46 @@
-const express = require('express')
+const express = require("express");
 
-const router = express.Router()
+const {
+  contactsCtrl: {
+    getAllContacts,
+    getContactById,
+    addContact,
+    removeContactById,
+    updateContactById,
+  },
+} = require("../../controllers");
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const {
+  errorBoundary,
+  checkRequiredContactFields,
+  checkEmptyContactUpdateData,
+  validateContactData,
+} = require("../../middlewares");
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const {
+  contact: { fullInfo },
+} = require("../../schemas");
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const router = express.Router();
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/", errorBoundary(getAllContacts));
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get("/:contactId", errorBoundary(getContactById));
 
-module.exports = router
+router.post(
+  "/",
+  checkRequiredContactFields,
+  validateContactData(fullInfo),
+  errorBoundary(addContact)
+);
+
+router.put(
+  "/:contactId",
+  checkEmptyContactUpdateData,
+  validateContactData(fullInfo),
+  errorBoundary(updateContactById)
+);
+
+router.delete("/:contactId", errorBoundary(removeContactById));
+
+module.exports = router;
