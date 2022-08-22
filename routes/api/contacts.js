@@ -15,6 +15,7 @@ const {
   errorBoundary,
   checkRequiredContactFields,
   checkEmptyContactUpdateData,
+  checkFavoriteFieldData,
   validateContactData,
   validateId,
 } = require('../../middlewares')
@@ -47,6 +48,7 @@ router.put(
 router.patch(
   '/:contactId/favorite',
   validateId,
+  checkFavoriteFieldData,
   validateContactData(updateFavoriteSchema),
   errorBoundary(updateFavoriteById)
 )
