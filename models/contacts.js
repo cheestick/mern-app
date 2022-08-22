@@ -42,13 +42,13 @@ const fullInfoSchema = Joi.object({
   favorite: Joi.boolean(),
 })
 
-const updateFavariteSchema = Joi.object({
+const updateFavoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 })
 
 const schemas = {
   fullInfo: fullInfoSchema,
-  updateFavariteSchema,
+  updateFavoriteSchema,
 }
 
 const Contact = model('contact', contactSchema)
