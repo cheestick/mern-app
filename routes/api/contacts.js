@@ -7,7 +7,7 @@ const {
     addContact,
     removeContactById,
     updateContactById,
-    updateFavoriteById,
+    updateStatusContact,
   },
 } = require('../../controllers')
 
@@ -50,7 +50,7 @@ router.patch(
   validateId,
   checkFavoriteFieldData,
   validateContactData(updateFavoriteSchema),
-  errorBoundary(updateFavoriteById)
+  errorBoundary(updateStatusContact)
 )
 
 router.delete('/:contactId', validateId, errorBoundary(removeContactById))
