@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express')
 
 const {
   contactsCtrl: {
@@ -7,40 +7,52 @@ const {
     addContact,
     removeContactById,
     updateContactById,
+    updateStatusContact,
   },
-} = require("../../controllers");
+} = require('../../controllers')
 
 const {
   errorBoundary,
   checkRequiredContactFields,
   checkEmptyContactUpdateData,
+  checkFavoriteFieldData,
   validateContactData,
-} = require("../../middlewares");
+  validateId,
+} = require('../../middlewares')
 
 const {
-  contact: { fullInfo },
-} = require("../../schemas");
+  schemas: { updateFavoriteSchema, fullInfo },
+} = require('../../models')
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", errorBoundary(getAllContacts));
+router.get('/', errorBoundary(getAllContacts))
 
-router.get("/:contactId", errorBoundary(getContactById));
+router.get('/:contactId', validateId, errorBoundary(getContactById))
 
 router.post(
-  "/",
+  '/',
   checkRequiredContactFields,
   validateContactData(fullInfo),
   errorBoundary(addContact)
-);
+)
 
 router.put(
-  "/:contactId",
+  '/:contactId',
+  validateId,
   checkEmptyContactUpdateData,
   validateContactData(fullInfo),
   errorBoundary(updateContactById)
-);
+)
 
-router.delete("/:contactId", errorBoundary(removeContactById));
+router.patch(
+  '/:contactId/favorite',
+  validateId,
+  checkFavoriteFieldData,
+  validateContactData(updateFavoriteSchema),
+  errorBoundary(updateStatusContact)
+)
 
-module.exports = router;
+router.delete('/:contactId', validateId, errorBoundary(removeContactById))
+
+module.exports = router
