@@ -1,3 +1,4 @@
 const current = require('./current')
+const updateSubsctiption = require('./updateSubsctription')
 
-module.exports = { current }
+module.exports = { current, updateSubsctiption }

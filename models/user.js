@@ -45,9 +45,14 @@ const signUpSignInSchema = Joi.object({
   password: Joi.string().min(6).required(),
 })
 
+const subscriptionSchema = Joi.object({
+  subscription: Joi.any().valid('starter', 'pro', 'business').required(),
+})
+
 const User = model('user', userSchema)
 
 module.exports = {
   User,
   signUpSignInSchema,
+  subscriptionSchema,
 }
