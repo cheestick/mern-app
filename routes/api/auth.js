@@ -1,6 +1,9 @@
 const router = require('express').Router()
 
-const { signup, login, logout, current } = require('../../controllers/auth')
+const { signup, login, logout } = require('../../controllers/auth')
+const {
+  usersCtrl: { current },
+} = require('../../controllers')
 
 const {
   errorBoundary,
