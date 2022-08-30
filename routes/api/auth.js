@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { register, login, logout } = require('../../controllers/auth')
+const { signup, login, logout, current } = require('../../controllers/auth')
 
 const {
   errorBoundary,
@@ -9,12 +9,12 @@ const {
 } = require('../../middlewares')
 const { signUpSignInSchema } = require('../../models/')
 
-router.post(
-  '/register',
-  validateBody(signUpSignInSchema),
-  errorBoundary(register)
-)
+router.post('/signup', validateBody(signUpSignInSchema), errorBoundary(signup))
+
 router.post('/login', validateBody(signUpSignInSchema), errorBoundary(login))
+
 router.get('/logout', authenticate, errorBoundary(logout))
+
+router.get('/current', authenticate, errorBoundary(current))
 
 module.exports = router

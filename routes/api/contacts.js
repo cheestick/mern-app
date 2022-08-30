@@ -12,6 +12,7 @@ const {
 } = require('../../controllers')
 
 const {
+  authenticate,
   errorBoundary,
   checkRequiredContactFields,
   checkEmptyContactUpdateData,
@@ -26,12 +27,18 @@ const {
 
 const router = express.Router()
 
-router.get('/', errorBoundary(getAllContacts))
+router.get('/', authenticate, errorBoundary(getAllContacts))
 
-router.get('/:contactId', validateId, errorBoundary(getContactById))
+router.get(
+  '/:contactId',
+  authenticate,
+  validateId,
+  errorBoundary(getContactById)
+)
 
 router.post(
   '/',
+  authenticate,
   checkRequiredContactFields,
   validateBody(fullInfo),
   errorBoundary(addContact)
@@ -39,6 +46,7 @@ router.post(
 
 router.put(
   '/:contactId',
+  authenticate,
   validateId,
   checkEmptyContactUpdateData,
   validateBody(fullInfo),
@@ -47,12 +55,18 @@ router.put(
 
 router.patch(
   '/:contactId/favorite',
+  authenticate,
   validateId,
   checkFavoriteFieldData,
   validateBody(updateFavoriteSchema),
   errorBoundary(updateStatusContact)
 )
 
-router.delete('/:contactId', validateId, errorBoundary(removeContactById))
+router.delete(
+  '/:contactId',
+  authenticate,
+  validateId,
+  errorBoundary(removeContactById)
+)
 
 module.exports = router
