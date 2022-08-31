@@ -12,11 +12,12 @@ const {
 } = require('../../controllers')
 
 const {
+  authenticate,
   errorBoundary,
   checkRequiredContactFields,
   checkEmptyContactUpdateData,
   checkFavoriteFieldData,
-  validateContactData,
+  validateBody,
   validateId,
 } = require('../../middlewares')
 
@@ -26,33 +27,46 @@ const {
 
 const router = express.Router()
 
-router.get('/', errorBoundary(getAllContacts))
+router.get('/', authenticate, errorBoundary(getAllContacts))
 
-router.get('/:contactId', validateId, errorBoundary(getContactById))
+router.get(
+  '/:contactId',
+  authenticate,
+  validateId,
+  errorBoundary(getContactById)
+)
 
 router.post(
   '/',
+  authenticate,
   checkRequiredContactFields,
-  validateContactData(fullInfo),
+  validateBody(fullInfo),
   errorBoundary(addContact)
 )
 
 router.put(
   '/:contactId',
+  authenticate,
   validateId,
   checkEmptyContactUpdateData,
-  validateContactData(fullInfo),
+  validateBody(fullInfo),
   errorBoundary(updateContactById)
 )
 
 router.patch(
   '/:contactId/favorite',
+  authenticate,
   validateId,
   checkFavoriteFieldData,
-  validateContactData(updateFavoriteSchema),
+  validateBody(updateFavoriteSchema),
   errorBoundary(updateStatusContact)
 )
 
-router.delete('/:contactId', validateId, errorBoundary(removeContactById))
+router.delete(
+  '/:contactId',
+  authenticate,
+  validateId,
+  errorBoundary(removeContactById)
+)
 
 module.exports = router

@@ -3,7 +3,11 @@ const { requestError } = require('../../helpers')
 
 const getContactById = async (req, res, __) => {
   const { contactId } = req.params
-  const result = await Contact.findById(contactId)
+  const { _id: owner } = req.user
+  const result = await Contact.findOne(
+    { owner, _id: contactId },
+    '-createdAt -updatedAt'
+  )
 
   if (!result) throw requestError(404, 'Not found!')
 
