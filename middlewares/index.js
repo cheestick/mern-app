@@ -5,6 +5,7 @@ const checkEmptyContactUpdateData = require('./checkEmptyContactUpdateData')
 const validateId = require('./validateId')
 const checkFavoriteFieldData = require('./checkFavoriteFieldData')
 const authenticate = require('./authenticate')
+const upload = require('./upload')
 
 module.exports = {
   authenticate,
@@ -14,4 +15,5 @@ module.exports = {
   validateBody,
   validateId,
   checkFavoriteFieldData,
+  upload,
 }
