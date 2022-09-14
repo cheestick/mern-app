@@ -2,7 +2,12 @@ const router = require('express').Router()
 
 const { signup, login, logout } = require('../../controllers/auth')
 const {
-  usersCtrl: { current, updateSubsctiption, changeAvatar },
+  usersCtrl: {
+    current,
+    updateSubsctiption,
+    changeAvatar,
+    verificationTokenCheck,
+  },
 } = require('../../controllers')
 
 const {
@@ -20,6 +25,8 @@ router.post('/login', validateBody(signUpSignInSchema), errorBoundary(login))
 router.get('/logout', authenticate, errorBoundary(logout))
 
 router.get('/current', authenticate, errorBoundary(current))
+
+router.get('verify/:verificationToken', verificationTokenCheck)
 
 router.patch(
   '/avatars',
