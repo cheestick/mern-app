@@ -7,6 +7,7 @@ const {
     updateSubsctiption,
     changeAvatar,
     verificationTokenCheck,
+    emailConfirmation,
   },
 } = require('../../controllers')
 
@@ -26,7 +27,9 @@ router.get('/logout', authenticate, errorBoundary(logout))
 
 router.get('/current', authenticate, errorBoundary(current))
 
-router.get('verify/:verificationToken', verificationTokenCheck)
+router.get('/verify/:verificationToken', verificationTokenCheck)
+
+router.post('/verify', emailConfirmation)
 
 router.patch(
   '/avatars',

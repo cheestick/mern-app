@@ -14,6 +14,8 @@ const login = async (req, res) => {
   const hasValidPassword = await user.validatePassword(password)
   if (!hasValidPassword) throw requestError(401, 'Email or password is wrong')
 
+  if (!user.verify) throw requestError(401, 'Email is not verified')
+
   const payload = {
     id: user._id,
   }
